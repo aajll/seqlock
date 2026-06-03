@@ -1,7 +1,7 @@
 project(
   'seqlock',
   'c',
-  version: '0.1.0',
+  version: '0.1.1',
   default_options: [
     'c_std=c11',
     'warning_level=3',
@@ -44,15 +44,11 @@ seqlock_lib = both_libraries(
   install: true,
 )
 
-install_headers(
-  'include/seqlock.h',
-  'include/seqlock_conf.h',
-  subdir: 'seqlock'
-)
+install_headers('include/seqlock.h', 'include/seqlock_conf.h', subdir: 'seqlock')
 
 seqlock_dep = declare_dependency(
   include_directories: [public_headers, generated_headers],
-  link_with: seqlock_lib,
+  link_with: seqlock_lib.get_static_lib(),
   sources: generated_version_header,
 )
 
