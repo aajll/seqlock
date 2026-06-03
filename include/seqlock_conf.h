@@ -66,6 +66,36 @@
 
 /* ================ ATOMIC BACKEND SELECTION ================================ */
 
+/**
+ * @def SEQLOCK_USE_GNU_ATOMICS
+ * @brief Force the GCC/Clang `__atomic` backend.
+ *
+ * This is the default backend on GCC and Clang. Define exactly one of
+ * SEQLOCK_USE_GNU_ATOMICS, SEQLOCK_USE_C11_ATOMICS, or
+ * SEQLOCK_USE_NO_ATOMICS consistently for the seqlock library build and all
+ * consumers to override automatic backend selection.
+ */
+
+/**
+ * @def SEQLOCK_USE_C11_ATOMICS
+ * @brief Force the C11 `<stdatomic.h>` backend.
+ *
+ * Use when the toolchain provides C11 atomics and the project wants to avoid
+ * compiler-specific `__atomic` builtins. Define exactly one backend-selection
+ * macro consistently for the seqlock library build and all consumers.
+ */
+
+/**
+ * @def SEQLOCK_USE_NO_ATOMICS
+ * @brief Force the degenerate uniprocessor backend.
+ *
+ * Correct only when readers and the writer cannot run concurrently on separate
+ * cores, or on targets with equivalent ordering guarantees. This backend uses
+ * a volatile counter and no hardware fences. Define exactly one backend-
+ * selection macro consistently for the seqlock library build and all
+ * consumers.
+ */
+
 /*
  * Pick exactly one backend unless the consumer forced one. The ladder mirrors
  * embedded-queue's queue_conf.h:
@@ -81,6 +111,12 @@
 #else
 #define SEQLOCK_USE_NO_ATOMICS 1
 #endif
+#endif
+
+#if (defined(SEQLOCK_USE_GNU_ATOMICS) + defined(SEQLOCK_USE_C11_ATOMICS)       \
+     + defined(SEQLOCK_USE_NO_ATOMICS))                                        \
+    != 1
+#error "seqlock: define exactly one atomic backend"
 #endif
 
 #if defined(SEQLOCK_USE_GNU_ATOMICS)

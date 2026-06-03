@@ -111,9 +111,9 @@ void seqlock_core_init(seqlock_hdr_t *hdr, void *payload, size_t size);
  * snapshot or the complete new one, never a torn mixture.
  *
  * @param hdr      Cell header. No-op if NULL.
- * @param payload  Cell payload storage. No-op if NULL or @p size == 0.
+ * @param payload  Cell payload storage. No-op if NULL.
  * @param in       Source value to copy in. No-op if NULL.
- * @param size     Payload size in bytes.
+ * @param size     Payload size in bytes. No-op if 0.
  *
  * @pre   At most one thread ever calls store() on a given cell; concurrent
  *        writers are undefined behaviour.
@@ -128,20 +128,24 @@ void seqlock_core_store(seqlock_hdr_t *hdr, void *payload, const void *in,
 
 /**
  * @brief Read the current consistent snapshot. Any number of readers,
- *        lock-free. Always succeeds.
+ *        lock-free. No failure return for valid arguments.
  *
  * Retries internally while a write overlaps the read, returning only once it
- * has copied an internally consistent (possibly slightly stale) snapshot.
+ * has copied an internally consistent (possibly slightly stale) snapshot. If
+ * the counter remains odd, this call spins until the writer completes; use
+ * seqlock_core_try_load() when a hard retry bound is required.
  *
- * @param hdr      Cell header.
- * @param payload  Cell payload storage.
- * @param out      Destination for the snapshot. On invalid arguments @p out is
- *                 zeroed when non-NULL, never left indeterminate.
- * @param size     Payload size in bytes.
+ * @param hdr      Cell header. Invalid if NULL.
+ * @param payload  Cell payload storage. Invalid if NULL.
+ * @param out      Destination for the snapshot. Invalid if NULL. If an
+ *                 invalid argument is detected and @p out is non-NULL with
+ *                 @p size != 0, @p out is zeroed before returning.
+ * @param size     Payload size in bytes. Invalid if 0.
  *
  * @note  Safe for any number of concurrent readers and concurrent with the
- *        single writer. Lock-free: bounded retries under writer contention,
- *        never blocking, deadlocking, or livelocking.
+ *        single writer when arguments are valid. It never blocks the writer,
+ *        allocates, performs syscalls, or takes an OS lock, but a reader may
+ *        spin while the writer is in the odd-counter window.
  */
 void seqlock_core_load(const seqlock_hdr_t *hdr, const void *payload, void *out,
                        size_t size);
@@ -150,20 +154,25 @@ void seqlock_core_load(const seqlock_hdr_t *hdr, const void *payload, void *out,
  * @brief Bounded read: like seqlock_core_load() but gives up after a fixed
  *        number of attempts instead of retrying until success.
  *
- * @param hdr          Cell header.
- * @param payload      Cell payload storage.
- * @param out          Destination for the snapshot on success.
- * @param size         Payload size in bytes.
- * @param max_retries  Maximum loop iterations attempted. Counts both causes of
- *                     a retry: observing a write in progress (odd counter) and
- *                     observing the counter change across the copy.
+ * @param hdr          Cell header. Invalid if NULL.
+ * @param payload      Cell payload storage. Invalid if NULL.
+ * @param out          Destination for the snapshot on success. Invalid if
+ *                     NULL. If an invalid argument is detected and @p out is
+ *                     non-NULL with @p size != 0, @p out is zeroed before
+ *                     returning false.
+ * @param size         Payload size in bytes. Invalid if 0.
+ * @param max_retries  Maximum loop iterations attempted. Each iteration counts
+ *                     as one attempt, whether it observes a write in progress
+ *                     (odd counter) or observes the counter change across the
+ *                     copy.
  *
- * @return true with @p out filled on success; false otherwise (invalid
- *         arguments, or the bound was exhausted without a consistent snapshot).
+ * @return true with @p out filled on success; false on invalid arguments or if
+ *         the bound was exhausted without a consistent snapshot.
  *
- * @note  On a false return the contents of @p out are unspecified: a partial
- *        attempt may have been written, and the no-allocation rule precludes a
- *        scratch buffer. Branch on the return value, never on @p out.
+ * @note  On retry-bound exhaustion, the contents of @p out are unspecified: a
+ *        partial attempt may have been written, and the no-allocation rule
+ *        precludes a scratch buffer. Branch on the return value, never on
+ *        @p out.
  * @note  Same reader concurrency guarantees as seqlock_core_load().
  */
 bool seqlock_core_try_load(const seqlock_hdr_t *hdr, const void *payload,
