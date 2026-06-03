@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.1.1] - 2026-06-03
+
+### Fixed
+
+- `seqlock_dep` now links the static archive via
+  `seqlock_lib.get_static_lib()` instead of the `both_libraries` object,
+  which resolved to the shared library. Consumers vendoring seqlock as a
+  static subproject no longer pull in a `libseqlock.so` runtime dependency,
+  matching the static archive already advertised by the generated
+  `pkg-config` file
+
 ## [0.1.0] - 2026-05-27
 
 Initial release.
@@ -43,4 +54,5 @@ Initial release.
   `<stdatomic.h>` backend, a concurrent self-checking torn-read test (also the
   TSAN gate), and a multi-reader soak; validated natively on AArch64
 
+[0.1.1]: https://github.com/aajll/seqlock/releases/tag/v0.1.1
 [0.1.0]: https://github.com/aajll/seqlock/releases/tag/v0.1.0
