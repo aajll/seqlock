@@ -109,11 +109,11 @@ have only advisory deviations and want to keep it that way.
   add Unity or other external test dependencies.
 - The concurrent torn-read test (`tests/test_seqlock_mt.c`) doubles as the
   TSAN gate. Its payload carries a self-checking invariant so a torn read is
-  caught at runtime, independent of the sanitizer. Keep new concurrency tests
+  caught at runtime, independent of the sanitiser. Keep new concurrency tests
   deterministic in their pass/fail criterion (assert an invariant, not a
   timing).
-- Concurrency tests shrink their iteration budget under a sanitizer
-  (`SEQLOCK_TEST_SANITIZED` in `tests/seqlock_test.h`): sanitizers add a
+- Concurrency tests shrink their iteration budget under a sanitiser
+  (`SEQLOCK_TEST_SANITIZED` in `tests/seqlock_test.h`): sanitisers add a
   10-50x slowdown and race detection comes from interleavings, not volume.
   Keep the full budget for native builds. Counts are `-D`-overridable.
 - The type-erased core (`seqlock_core_*`) is exercised directly by

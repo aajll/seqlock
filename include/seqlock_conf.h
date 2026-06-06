@@ -1,6 +1,10 @@
 /**
- * @file seqlock_conf.h
- * @brief Compile-time configuration for the seqlock library.
+ * SPDX-License-Identifier: MIT
+ *
+ * @file: seqlock_conf.h
+ *
+ * @brief
+ *    Compile-time configuration for the seqlock library.
  *
  * @details
  *    Every option below is wrapped in an `#ifndef` guard, so a consumer can

@@ -35,7 +35,7 @@ Run TSAN on an x86-64 host (or a 4K-page AArch64). TSAN cannot initialise on a
 ### CI / source of truth
 
 - CI definitions live in `.github/workflows/ci.yml`.
-- A dedicated `tsan` job runs the thread sanitizer; ASAN and TSAN are mutually
+- A dedicated `tsan` job runs the thread sanitiser; ASAN and TSAN are mutually
   exclusive, so it is separate from the ASAN/UBSan matrix.
 - Prefer running the same commands locally as CI runs.
 - If `pre-commit` is configured later, run it before committing.
@@ -69,7 +69,7 @@ Run TSAN on an x86-64 host (or a 4K-page AArch64). TSAN cannot initialise on a
 - Match the conventions in the existing files.
 - All public identifiers use the `seqlock_` / `SEQLOCK_` prefix.
 - Keep public headers minimal and stable; do not expose internal helpers.
-- Prefer explicit fixed-width integer types when ABI or serialization matters.
+- Prefer explicit fixed-width integer types when ABI or serialisation matters.
 - No dynamic memory, no syscalls, no blocking anywhere in the library.
 - Compile-time validation via `_Static_assert` (lock-free counter, non-empty and
   non-over-aligned payload); the primitive must fail to compile rather than
@@ -121,5 +121,5 @@ Run TSAN on an x86-64 host (or a 4K-page AArch64). TSAN cannot initialise on a
   Unity or other external test dependencies.
 - The multi-threaded torn-read test (`tests/test_seqlock_mt.c`) doubles as the
   TSAN gate; its payload carries a self-checking invariant so any torn read is
-  detected at runtime, independent of the sanitizer.
+  detected at runtime, independent of the sanitiser.
 - Add a test case for each bug fix and each new feature.

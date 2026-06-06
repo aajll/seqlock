@@ -1,6 +1,10 @@
 /**
- * @file seqlock.h
- * @brief Single-writer / multi-reader sequence lock (seqlock) primitive.
+ * SPDX-License-Identifier: MIT
+ *
+ * @file: seqlock.h
+ *
+ * @brief
+ *    Single-writer / multi-reader sequence lock (seqlock) primitive.
  *
  * @details
  *    A seqlock publishes a multi-word value as an internally consistent
