@@ -1,6 +1,10 @@
 /**
- * @file seqlock.c
- * @brief Type-erased core of the seqlock primitive.
+ * SPDX-License-Identifier: MIT
+ *
+ * @file: seqlock.c
+ *
+ * @brief
+ *    Type-erased core of the seqlock primitive.
  *
  * @details
  *    All correctness-critical logic lives here, once, operating on raw

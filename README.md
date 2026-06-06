@@ -16,7 +16,7 @@ Single-writer / multi-reader sequence lock for lock-free, internally consistent 
 - **Configurable**: counter width, per-cell cache-line alignment, retry default, and copy strategy are all overridable through `seqlock_conf.h`
 - **Compliance-aware design goals**: static allocation, explicit per-function contracts, compile-time validation, and a small auditable codebase targeting IEC 61508 and MISRA C:2012 principles
 
-## Using the Library
+## Installation
 
 ### As a Meson subproject
 
@@ -71,23 +71,6 @@ The generated version header is available as `seqlock_version.h` in the
 build tree and as `<seqlock/seqlock_version.h>` after install. It is optional
 and is not included by the library or its tests.
 
-## Building
-
-```sh
-# Library only (release)
-meson setup build --buildtype=release -Dbuild_tests=false
-meson compile -C build
-
-# With unit tests
-meson setup build --buildtype=debug -Dbuild_tests=true
-meson compile -C build
-meson test -C build --verbose
-
-# Concurrency check under ThreadSanitizer (x86-64 host; see Notes)
-meson setup build-tsan --buildtype=debug -Dbuild_tests=true -Db_sanitize=thread
-meson test -C build-tsan --verbose
-```
-
 ## Quick Start
 
 ```c
@@ -133,6 +116,23 @@ int main(void)
         /* s holds {3.5f, 1000, true} as one consistent snapshot */
         return 0;
 }
+```
+
+## Building
+
+```sh
+# Library only (release)
+meson setup build --buildtype=release -Dbuild_tests=false
+meson compile -C build
+
+# With unit tests
+meson setup build --buildtype=debug -Dbuild_tests=true
+meson compile -C build
+meson test -C build --verbose
+
+# Concurrency check under ThreadSanitizer (x86-64 host; see Notes)
+meson setup build-tsan --buildtype=debug -Dbuild_tests=true -Db_sanitize=thread
+meson test -C build-tsan --verbose
 ```
 
 ## API Reference
