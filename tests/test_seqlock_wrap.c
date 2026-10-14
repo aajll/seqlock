@@ -1,4 +1,6 @@
 /*
+ * SPDX-License-Identifier: MIT
+ *
  * @file test_seqlock_wrap.c
  * @brief Counter wrap across the counter type maximum.
  *

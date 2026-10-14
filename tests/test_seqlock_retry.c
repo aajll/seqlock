@@ -1,4 +1,6 @@
 /*
+ * SPDX-License-Identifier: MIT
+ *
  * @file test_seqlock_retry.c
  * @brief Drives every reader retry branch deterministically.
  *

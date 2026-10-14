@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 thread_dep = dependency('threads')
 
 # Single-threaded behavioural tests: round-trip, repeated stores, init/zero

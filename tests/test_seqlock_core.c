@@ -1,4 +1,6 @@
 /*
+ * SPDX-License-Identifier: MIT
+ *
  * @file test_seqlock_core.c
  * @brief Direct tests of the type-erased core API (`seqlock_core_*`).
  *

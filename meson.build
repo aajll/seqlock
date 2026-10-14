@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+
 project(
   'seqlock',
   'c',
@@ -35,12 +37,10 @@ generated_headers = include_directories('.')
 
 library_sources = files('src/seqlock.c')
 
-seqlock_lib = both_libraries(
+seqlock_lib = static_library(
   'seqlock',
   library_sources,
   include_directories: [public_headers, generated_headers],
-  version: meson.project_version(),
-  soversion: major,
   install: true,
 )
 
@@ -48,7 +48,7 @@ install_headers('include/seqlock.h', 'include/seqlock_conf.h', subdir: 'seqlock'
 
 seqlock_dep = declare_dependency(
   include_directories: [public_headers, generated_headers],
-  link_with: seqlock_lib.get_static_lib(),
+  link_with: seqlock_lib,
   sources: generated_version_header,
 )
 
@@ -56,7 +56,7 @@ meson.override_dependency('seqlock', seqlock_dep)
 
 pkg = import('pkgconfig')
 pkg.generate(
-  seqlock_lib.get_static_lib(),
+  seqlock_lib,
   description: project_description,
   filebase: 'seqlock',
   name: 'seqlock',

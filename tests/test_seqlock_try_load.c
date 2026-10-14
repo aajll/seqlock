@@ -1,4 +1,6 @@
 /*
+ * SPDX-License-Identifier: MIT
+ *
  * @file test_seqlock_try_load.c
  * @brief Bounded try_load() semantics.
  *

@@ -1,4 +1,6 @@
 /*
+ * SPDX-License-Identifier: MIT
+ *
  * @file test_seqlock_soak.c
  * @brief Long-running multi-reader soak.
  *

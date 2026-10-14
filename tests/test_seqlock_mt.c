@@ -1,4 +1,6 @@
 /*
+ * SPDX-License-Identifier: MIT
+ *
  * @file test_seqlock_mt.c
  * @brief Concurrent torn-read detection + wait-free-writer liveness.
  *

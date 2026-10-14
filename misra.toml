@@ -1,0 +1,65 @@
+# misch configuration. See the project configuration reference:
+# https://github.com/aajll/misch/blob/master/docs/configuration.md
+
+[project]
+# Analysed source roots. Directory-style entries match everything beneath
+# them; globs (e.g. "*.c") are also honoured.
+scope   = ["include/", "src/"]
+# Explicitly excluded. Every compile-DB file must match scope OR exclude;
+# an unclassified file is a hard error (no silent scope creep).
+exclude = ["tests/", "subprojects/"]
+
+[db]
+# Where compile_commands.json comes from: meson | cmake | existing.
+# Plain-Make projects: generate one (e.g. `bear -- make`) and use "existing".
+source = "meson"
+# path = "build/compile_commands.json"   # source = "existing" only
+
+[platform]
+# A cppcheck built-in (unix64, unix32, ...) or set [platform].xml to a
+# custom platform description for exotic targets.
+preset = "unix64"
+
+[toolchain]
+# Extra -D defines cppcheck should see (e.g. neutralising compiler
+# keywords on a cross target: "__interrupt=").
+defines = ["SEQLOCK_USE_GNU_ATOMICS=1"]
+
+[rules]
+# Bring your own licensed rule texts; see analysis/rules/README.md.
+# Precedence: $MISRA_RULE_TEXTS > this value. Absent => category: unknown.
+texts = "${MISRA_RULE_TEXTS}"
+
+[report]
+# Default output is the terminal. Add file outputs as needed, e.g.:
+#   outputs = ["terminal", {format = "json", path = "misra.json"}]
+outputs = ["terminal"]
+
+[deviations]
+# Project-level deviations; prefer justified inline suppressions.
+suppressions = "analysis/deviations/misra-deviations.txt"
+
+[baseline]
+# Created only when `misch baseline` explicitly accepts findings.
+path = "analysis/baseline/misra-baseline.json"
+
+# Multi-platform profiles overlay the base config. Select one with
+# `misch run --profile <name>`. Scalars replace; lists replace by default
+# or extend with the append_ prefix; the [platform] table replaces whole.
+# Give each ratcheted profile its own baseline.path, since findings differ
+# between platforms. cppcheck has no arm preset; target Arm with an XML.
+# [profiles.aarch64]
+# platform.xml = "analysis/aarch64_platform.xml"
+# baseline.path = "analysis/baseline/misra-baseline.aarch64.json"
+# toolchain.append_defines = ["ARCH_ARM64"]
+
+# One profile per remaining atomic backend. The base analysis covers the
+# GCC/Clang __atomic backend; each profile forces another rung of the ladder in
+# seqlock_conf.h and keeps its own baseline, since the findings differ.
+[profiles.c11]
+toolchain.defines = ["SEQLOCK_USE_C11_ATOMICS=1"]
+baseline.path = "analysis/baseline/misra-baseline.c11.json"
+
+[profiles.no_atomics]
+toolchain.defines = ["SEQLOCK_USE_NO_ATOMICS=1"]
+baseline.path = "analysis/baseline/misra-baseline.no_atomics.json"
