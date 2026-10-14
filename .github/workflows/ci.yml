@@ -41,9 +41,10 @@ jobs:
         run: uv tool install meson && uv tool install ninja
 
       # TSAN and ASAN are mutually exclusive, so this is a dedicated job with
-      # only the thread sanitizer. It exercises the concurrent torn-read test
-      # (design §7 #5); the library auto-selects its race-free payload copy
-      # under TSAN, so a clean run proves the synchronisation, not luck.
+      # only the thread sanitizer. It runs the concurrent torn-read tests
+      # described under Verification in docs/design.md. The library selects
+      # its race-free payload copy under TSAN, so a clean run checks the
+      # synchronisation itself.
       - name: Configure (debug + thread sanitizer)
         run: meson setup build-tsan --buildtype=debug -Dbuild_tests=true -Db_sanitize=thread
 

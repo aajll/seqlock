@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `scripts/format.sh`, which pins the clang-format release and runs it with `uvx`. CI checks formatting through it.
 - CI runs the MISRA C:2023 analysis with `misch` for each atomic backend, fails on any finding outside that backend's recorded baseline, and prints the deviation record.
 - CI compiles the library with warnings as errors using two releases of a vendor C11 compiler for a 16-bit-MAU DSP target, under both of its object formats. That compiler selects the uniprocessor backend.
+- `docs/integration.md`, `docs/api.md` and `docs/design.md`. The design record covers the protocol and its memory-ordering argument, the limits of the uniprocessor backend, progress guarantees, counter wrap, and verification. The README is now a landing page.
+- A `seqlock docs examples` test that compiles every C example in the documentation against the public headers.
 
 ### Changed
 
