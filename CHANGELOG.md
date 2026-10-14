@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- CI gates on 100% branch coverage as well as line coverage. The reader retry branches are reached deterministically by a single-threaded test, and the no-atomics backend is built and tested alongside the C11 backend.
+
 - Added security policy, SPDX headers, and cleaned ignore rules while leaving the existing special coverage/concurrency handling unchanged.
 
 ## [0.1.1] - 2026-06-03

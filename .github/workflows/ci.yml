@@ -4,7 +4,6 @@ on:
   push:
     branches: ["master","main"]
   pull_request:
-    branches: ["master","main"]
 
 jobs:
   test:
@@ -86,13 +85,13 @@ jobs:
       - name: Test
         run: meson test -C build-cov
 
-      # Gate on 100% line coverage of the library sources. Branch coverage is
-      # reported but not gated: some branches are concurrency-dependent and
-      # cannot be forced deterministically on every run.
-      - name: Coverage report (100% line gate)
+      # Gate on 100% line and branch coverage of the library sources, merged
+      # across every backend build. The reader retry branches are reached
+      # deterministically by test_seqlock_retry, not by the concurrent tests.
+      - name: Coverage report (100% line and branch gate)
         run: |
           gcovr --root . --filter 'src/' --filter 'include/' \
-                --fail-under-line 100 --print-summary
+                --fail-under-line 100 --fail-under-branch 100 --print-summary
 
   release-build:
     name: Release build
