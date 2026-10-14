@@ -22,12 +22,12 @@ meson setup build-tsan --buildtype=debug -Dbuild_tests=true \
 meson compile -C build-tsan
 meson test -C build-tsan --verbose
 
-# Coverage (CI gates on 100% line coverage of src/ + include/)
+# Coverage (CI gates on 100% line and branch coverage of src/ + include/)
 meson setup build-cov --buildtype=debug -Dbuild_tests=true -Db_coverage=true \
                       -Dc_args=-fprofile-update=atomic
 meson compile -C build-cov && meson test -C build-cov
 gcovr --root . --filter 'src/' --filter 'include/' \
-      --fail-under-line 100 --print-summary
+      --fail-under-line 100 --fail-under-branch 100 --print-summary
 ```
 
 Run the TSAN build on an x86-64 host (or a 4K-page AArch64). TSAN cannot
@@ -119,10 +119,13 @@ have only advisory deviations and want to keep it that way.
 - The type-erased core (`seqlock_core_*`) is exercised directly by
   `tests/test_seqlock_core.c`, including its argument-validation paths, which
   the typed shims cannot reach. New core behaviour needs a test there.
-- CI gates on **100% line coverage** of `src/` and `include/`. Branch coverage
-  is reported but not gated, because some branches are concurrency-dependent
-  and cannot be forced deterministically every run. New code without tests
+- CI gates on **100% line and branch coverage** of `src/` and `include/`,
+  merged across every backend build. Reach new branches deterministically,
+  not through the concurrent tests: `tests/test_seqlock_retry.c` shows how
+  the reader retry paths are driven single-threaded. New code without tests
   fails the gate.
+- Each non-default backend (C11, no-atomics) is built and run by
+  `tests/test_seqlock_backend.c`.
 - All tests must pass on every CI configuration: Linux with
   ASan/UBSan, the dedicated TSAN job, the coverage gate, and the release
   build.
