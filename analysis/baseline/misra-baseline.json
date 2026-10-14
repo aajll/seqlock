@@ -1,0 +1,59 @@
+{
+  "schema": "misch/baseline@2",
+  "fingerprints": {
+    "055c7abe9a38": {
+      "rule_id": "misra-c2012-17.3",
+      "file": "include/seqlock.h",
+      "message": "misra violation (use --rule-texts=<file> to get proper output)",
+      "count": 1
+    },
+    "2553c4e512ab": {
+      "rule_id": "misra-c2012-8.7",
+      "file": "src/seqlock.c",
+      "message": "misra violation (use --rule-texts=<file> to get proper output)",
+      "count": 4
+    },
+    "370d2dc0f26b": {
+      "rule_id": "misra-c2012-20.10",
+      "file": "include/seqlock.h",
+      "message": "misra violation (use --rule-texts=<file> to get proper output)",
+      "count": 1
+    },
+    "60d7de2693da": {
+      "rule_id": "misra-c2012-2.5",
+      "file": "include/seqlock_conf.h",
+      "message": "misra violation (use --rule-texts=<file> to get proper output)",
+      "count": 3
+    },
+    "6432a4e45231": {
+      "rule_id": "misra-c2012-15.5",
+      "file": "src/seqlock.c",
+      "message": "misra violation (use --rule-texts=<file> to get proper output)",
+      "count": 6
+    },
+    "a3f09014320e": {
+      "rule_id": "misra-c2012-12.1",
+      "file": "include/seqlock.h",
+      "message": "misra violation (use --rule-texts=<file> to get proper output)",
+      "count": 1
+    },
+    "c0c606393b08": {
+      "rule_id": "misra-c2012-12.1",
+      "file": "src/seqlock.c",
+      "message": "misra violation (use --rule-texts=<file> to get proper output)",
+      "count": 12
+    },
+    "d63ad8bce9c3": {
+      "rule_id": "misra-c2012-17.3",
+      "file": "src/seqlock.c",
+      "message": "misra violation (use --rule-texts=<file> to get proper output)",
+      "count": 11
+    },
+    "e4c3053cf18a": {
+      "rule_id": "misra-c2012-2.5",
+      "file": "include/seqlock.h",
+      "message": "misra violation (use --rule-texts=<file> to get proper output)",
+      "count": 3
+    }
+  }
+}

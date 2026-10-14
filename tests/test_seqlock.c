@@ -1,4 +1,6 @@
 /*
+ * SPDX-License-Identifier: MIT
+ *
  * @file test_seqlock.c
  * @brief Single-threaded behavioural tests for the seqlock primitive.
  *

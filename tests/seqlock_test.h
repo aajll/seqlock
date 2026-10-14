@@ -1,4 +1,6 @@
 /*
+ * SPDX-License-Identifier: MIT
+ *
  * @file seqlock_test.h
  * @brief Minimal assert-based test harness shared by the seqlock tests.
  */
