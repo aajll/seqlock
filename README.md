@@ -14,7 +14,7 @@ Single-writer / multi-reader sequence lock for lock-free, internally consistent 
 - **ThreadSanitizer-clean**: auto-selects a race-free relaxed-atomic payload copy under TSAN and a fast benign-race-annotated `memcpy` otherwise
 - **Bounded read variant**: `try_load()` gives up after a caller-set retry count instead of spinning, for callers that must not block
 - **Configurable**: counter width, per-cell cache-line alignment, retry default, and copy strategy are all overridable through `seqlock_conf.h`
-- **Compliance-aware design goals**: static allocation, explicit per-function contracts, compile-time validation, and a small auditable codebase targeting IEC 61508 and MISRA C:2012 principles
+- **Auditable design**: static allocation, explicit per-function contracts, compile-time validation, and a small codebase
 
 ## Installation
 
