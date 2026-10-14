@@ -123,7 +123,7 @@ have only advisory deviations and want to keep it that way.
   is reported but not gated, because some branches are concurrency-dependent
   and cannot be forced deterministically every run. New code without tests
   fails the gate.
-- All tests must pass on every CI configuration: Linux + macOS with
+- All tests must pass on every CI configuration: Linux with
   ASan/UBSan, the dedicated TSAN job, the coverage gate, and the release
   build.
 
@@ -156,7 +156,7 @@ change is needed, not _what_ the diff already shows.
   the memory-ordering protocol, so the design can be agreed before
   implementation.
 - Keep PRs focused. One feature or one fix per PR.
-- All CI checks must pass: tests on Linux + macOS, ASan/UBSan, the TSAN job,
+- All CI checks must pass: tests under ASan/UBSan, the TSAN job,
   and the release build.
 - Flag any new MISRA deviation in the PR description.
 
