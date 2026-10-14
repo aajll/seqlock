@@ -3,7 +3,7 @@
 ## Project-specific instructions
 
 **Project:** `seqlock`
-**Primary goal:** Single-writer / multi-reader sequence lock (seqlock) for lock-free, internally consistent snapshots of a multi-word value. Readers never block the writer and never observe a torn tuple. Targets IEC 61508 and MISRA C:2012 principles.
+**Primary goal:** Single-writer / multi-reader sequence lock (seqlock) for lock-free, internally consistent snapshots of a multi-word value. Readers never block the writer and never observe a torn tuple.
 
 ### Essential commands
 
