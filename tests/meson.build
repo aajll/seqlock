@@ -8,7 +8,7 @@ test_basic_exe = executable(
   'test_seqlock',
   files('test_seqlock.c'),
   dependencies: [seqlock_dep],
-  include_directories: [public_headers, generated_headers],
+  include_directories: public_headers,
 )
 test('seqlock basic', test_basic_exe)
 
@@ -17,7 +17,7 @@ test_core_exe = executable(
   'test_seqlock_core',
   files('test_seqlock_core.c'),
   dependencies: [seqlock_dep],
-  include_directories: [public_headers, generated_headers],
+  include_directories: public_headers,
 )
 test('seqlock core', test_core_exe)
 
@@ -26,7 +26,7 @@ test_try_exe = executable(
   'test_seqlock_try_load',
   files('test_seqlock_try_load.c'),
   dependencies: [seqlock_dep],
-  include_directories: [public_headers, generated_headers],
+  include_directories: public_headers,
 )
 test('seqlock try_load', test_try_exe)
 
@@ -35,7 +35,7 @@ test_wrap_exe = executable(
   'test_seqlock_wrap',
   files('test_seqlock_wrap.c'),
   dependencies: [seqlock_dep],
-  include_directories: [public_headers, generated_headers],
+  include_directories: public_headers,
 )
 test('seqlock wrap', test_wrap_exe)
 
@@ -50,7 +50,7 @@ foreach backend : [['c11', 'SEQLOCK_USE_C11_ATOMICS'], ['no_atomics', 'SEQLOCK_U
       'test_seqlock_' + backend[0],
       files('test_seqlock_backend.c') + library_sources,
       c_args: ['-D@0@=1'.format(backend[1])],
-      include_directories: [public_headers, generated_headers],
+      include_directories: public_headers,
     ),
   )
 endforeach
@@ -63,7 +63,7 @@ test_retry_exe = executable(
   'test_seqlock_retry',
   files('test_seqlock_retry.c'),
   dependencies: [seqlock_dep],
-  include_directories: [public_headers, generated_headers],
+  include_directories: public_headers,
 )
 test('seqlock retry', test_retry_exe)
 
@@ -74,7 +74,7 @@ test_retry_relax_exe = executable(
     '-DSEQLOCK_TEST_RELAX_HOOK=1',
     '-DSEQLOCK_CPU_RELAX()=do { extern void seqlock_test_relax(void); seqlock_test_relax(); } while (0)',
   ],
-  include_directories: [public_headers, generated_headers],
+  include_directories: public_headers,
 )
 test('seqlock retry relax', test_retry_relax_exe)
 
@@ -85,7 +85,7 @@ test_mt_exe = executable(
   'test_seqlock_mt',
   files('test_seqlock_mt.c'),
   dependencies: [seqlock_dep, thread_dep],
-  include_directories: [public_headers, generated_headers],
+  include_directories: public_headers,
 )
 test('seqlock mt', test_mt_exe, timeout: 120)
 
@@ -94,7 +94,7 @@ test_soak_exe = executable(
   'test_seqlock_soak',
   files('test_seqlock_soak.c'),
   dependencies: [seqlock_dep, thread_dep],
-  include_directories: [public_headers, generated_headers],
+  include_directories: public_headers,
 )
 test('seqlock soak', test_soak_exe, timeout: 180)
 

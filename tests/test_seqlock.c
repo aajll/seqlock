@@ -10,6 +10,7 @@
 
 #include "seqlock.h"
 #include "seqlock_test.h"
+#include "seqlock_version.h"
 
 #include <stdint.h>
 #include <string.h>
@@ -151,6 +152,16 @@ TEST_CASE(test_large_payload)
         }
 }
 
+/* The deprecated version header still exposes the macros from seqlock.h. */
+TEST_CASE(test_version_macros)
+{
+        TEST_ASSERT(SEQLOCK_VERSION_NUMBER
+                    == ((SEQLOCK_VERSION_MAJOR * 10000L)
+                        + (SEQLOCK_VERSION_MINOR * 100L)
+                        + SEQLOCK_VERSION_PATCH));
+        TEST_ASSERT(SEQLOCK_VERSION_STRING[0] != '\0');
+}
+
 int
 main(void)
 {
@@ -162,6 +173,7 @@ main(void)
         run_test(test_even_counter_advances_by_two, "even_counter_advances");
         run_test(test_null_validation, "null_validation");
         run_test(test_large_payload, "large_payload");
+        run_test(test_version_macros, "version_macros");
 
         (void)fprintf(stdout, "\n=== all basic tests passed ===\n\n");
         return EXIT_SUCCESS;

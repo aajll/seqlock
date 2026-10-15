@@ -171,3 +171,25 @@ record_load(const record_cell_t *cell, void *out)
 ```
 
 `size` must not exceed `RECORD_MAX_BYTES` and must not change while the cell is in use, because the reader and the writer both copy that many bytes.
+
+## Version
+
+`seqlock.h` defines the release it belongs to, so a copied-in header still identifies itself:
+
+<!-- snippet: skip -->
+```c
+#define SEQLOCK_VERSION_MAJOR 0
+#define SEQLOCK_VERSION_MINOR 1
+#define SEQLOCK_VERSION_PATCH 1
+#define SEQLOCK_VERSION "0.1.1"
+```
+
+`SEQLOCK_VERSION_NUMBER` is `MAJOR * 10000 + MINOR * 100 + PATCH` as a `long`, so it holds any version where `int` is 16 bits. Compare it in the preprocessor to require a minimum release:
+
+```c
+#if SEQLOCK_VERSION_NUMBER < 101L
+#error "seqlock 0.1.1 or later is required"
+#endif
+```
+
+`SEQLOCK_VERSION_STRING` is the same string as `SEQLOCK_VERSION`. `seqlock_version.h` is a deprecated header that includes `seqlock.h`, kept so existing includes compile until the next major release.

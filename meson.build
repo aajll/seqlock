@@ -4,6 +4,7 @@ project(
   'seqlock',
   'c',
   version: '0.1.1',
+  meson_version: '>=0.57.0',
   default_options: [
     'c_std=c11',
     'warning_level=3',
@@ -13,43 +14,48 @@ project(
 
 project_description = 'A small Meson-based sequence lock library in C'
 
-ver = meson.project_version().split('.')
-major = ver[0].to_int()
-minor = ver[1].to_int()
-patch = ver[2].to_int()
+# include/seqlock.h defines the version macros, so a copy-in build has them.
+# Configuration fails when they differ from the project version.
 
-conf = configuration_data()
-conf.set_quoted('VERSION', meson.project_version())
-conf.set('MAJOR', major)
-conf.set('MINOR', minor)
-conf.set('PATCH', patch)
-
-generated_version_header = configure_file(
-  input: 'config' / 'seqlock_version.h.in',
-  output: 'seqlock_version.h',
-  configuration: conf,
-  install: true,
-  install_dir: get_option('includedir') / 'seqlock',
-)
+fs = import('fs')
+version_parts = meson.project_version().split('.')
+version_macros = {
+  'SEQLOCK_VERSION_MAJOR': version_parts[0],
+  'SEQLOCK_VERSION_MINOR': version_parts[1],
+  'SEQLOCK_VERSION_PATCH': version_parts[2],
+  'SEQLOCK_VERSION': '"' + meson.project_version() + '"',
+}
+header_lines = []
+foreach line : fs.read('include' / 'seqlock.h').split('\n')
+  header_lines += ' '.join(line.split())
+endforeach
+foreach name, value : version_macros
+  if '#define @0@ @1@'.format(name, value) not in header_lines
+    error('include/seqlock.h must define @0@ as @1@'.format(name, value))
+  endif
+endforeach
 
 public_headers = include_directories('include')
-generated_headers = include_directories('.')
 
 library_sources = files('src/seqlock.c')
 
 seqlock_lib = static_library(
   'seqlock',
   library_sources,
-  include_directories: [public_headers, generated_headers],
+  include_directories: public_headers,
   install: true,
 )
 
-install_headers('include/seqlock.h', 'include/seqlock_conf.h', subdir: 'seqlock')
+install_headers(
+  'include/seqlock.h',
+  'include/seqlock_conf.h',
+  'include/seqlock_version.h',
+  subdir: 'seqlock',
+)
 
 seqlock_dep = declare_dependency(
-  include_directories: [public_headers, generated_headers],
+  include_directories: public_headers,
   link_with: seqlock_lib,
-  sources: generated_version_header,
 )
 
 meson.override_dependency('seqlock', seqlock_dep)
