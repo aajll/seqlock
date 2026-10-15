@@ -10,7 +10,6 @@
 
 #include "seqlock.h"
 #include "seqlock_test.h"
-#include "seqlock_version.h"
 
 #include <stdint.h>
 #include <string.h>
@@ -152,7 +151,7 @@ TEST_CASE(test_large_payload)
         }
 }
 
-/* The deprecated version header still exposes the macros from seqlock.h. */
+/* The version number agrees with its parts. */
 TEST_CASE(test_version_macros)
 {
         TEST_ASSERT(SEQLOCK_VERSION_NUMBER

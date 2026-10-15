@@ -57,8 +57,6 @@ The install contains `libseqlock.a`, the headers in a `seqlock/` subdirectory, a
 #include <seqlock/seqlock.h>
 ```
 
-`seqlock_version.h` is installed beside it as a deprecated header that includes `seqlock.h`.
-
 ## Configuration
 
 Every option in `seqlock_conf.h` sits behind an `#ifndef` guard, so a `-D` definition replaces the shipped default. The options are described in [api.md](api.md#configuration).

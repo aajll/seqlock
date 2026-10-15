@@ -192,4 +192,4 @@ record_load(const record_cell_t *cell, void *out)
 #endif
 ```
 
-`SEQLOCK_VERSION_STRING` is the same string as `SEQLOCK_VERSION`. `seqlock_version.h` is a deprecated header that includes `seqlock.h`, kept so existing includes compile until the next major release.
+`SEQLOCK_VERSION_STRING` is the same string as `SEQLOCK_VERSION`.
