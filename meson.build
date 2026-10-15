@@ -49,7 +49,6 @@ seqlock_lib = static_library(
 install_headers(
   'include/seqlock.h',
   'include/seqlock_conf.h',
-  'include/seqlock_version.h',
   subdir: 'seqlock',
 )
 

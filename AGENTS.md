@@ -49,7 +49,7 @@ scripts/format.sh --fix    # rewrite in place
 
 ### 1.2 Notes
 
-- `include/seqlock.h` defines the version macros, and `meson setup` fails when they differ from `project(version:)`, so a release updates both. `include/seqlock_version.h` is a deprecated header that includes `seqlock.h`.
+- `include/seqlock.h` defines the version macros, and `meson setup` fails when they differ from `project(version:)`, so a release updates both.
 - The build produces only a static library. The only Meson option is `build_tests`.
 - `SEQLOCK_COUNTER_TYPE` and the backend macros must be identical for the library and every caller; nothing detects a mismatch. `seqlock.h` includes `seqlock_conf.h` with quotes, so configuration is by `-D` only, never by a replacement header.
 - ThreadSanitizer needs a 4 KiB-page kernel with a 48-bit address space on AArch64, and AddressSanitizer does not start on a 39-bit one; use a plain native build there.
