@@ -25,7 +25,7 @@ Keep both headers in the same directory, because `seqlock.h` includes `seqlock_c
 #include "seqlock.h"
 ```
 
-`seqlock_version.h` exists only in Meson builds.
+`seqlock.h` defines the version macros described in [api.md](api.md#version).
 
 ## Meson subproject
 
@@ -55,10 +55,9 @@ The install contains `libseqlock.a`, the headers in a `seqlock/` subdirectory, a
 <!-- snippet: skip -->
 ```c
 #include <seqlock/seqlock.h>
-#include <seqlock/seqlock_version.h>
 ```
 
-`seqlock_version.h` defines `SEQLOCK_VERSION_STRING` as the version string, and `SEQLOCK_VERSION_MAJOR`, `SEQLOCK_VERSION_MINOR` and `SEQLOCK_VERSION_PATCH` as integers.
+`seqlock_version.h` is installed beside it as a deprecated header that includes `seqlock.h`.
 
 ## Configuration
 

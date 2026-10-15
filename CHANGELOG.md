@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- `seqlock.h` defines `SEQLOCK_VERSION_MAJOR`, `_MINOR`, `_PATCH`, `SEQLOCK_VERSION`, `SEQLOCK_VERSION_STRING` and a new `SEQLOCK_VERSION_NUMBER` (`long`, `MAJOR * 10000 + MINOR * 100 + PATCH`), so a copied-in header carries its version. `seqlock_version.h` is no longer generated; it is installed as a deprecated header that includes `seqlock.h`. Meson fails to configure when the header and `project(version:)` disagree, and the build needs Meson 0.57 or later.
 - The build produces and installs only the static library. The shared library, which neither `seqlock_dep` nor `seqlock.pc` linked, is no longer built.
 - CI installs Meson, Ninja and gcovr with `uv` instead of `pip`.
 - CI gates on 100% branch coverage as well as line coverage. The reader retry branches are reached deterministically by a single-threaded test, and the no-atomics backend is built and tested alongside the C11 backend.

@@ -101,7 +101,7 @@ Breaking the single-writer rule, or calling `init` while the cell is in use, is 
 
 ## MISRA C:2023
 
-`misch` analyses `include/` and `src/` once for each backend: the `__atomic` backend in the base configuration, and the C11 and uniprocessor backends through the `c11` and `no_atomics` profiles in `misra.toml`, because each backend compiles different code. Each analysis has a baseline in `analysis/baseline/` that records its accepted findings, and CI fails on any finding outside it. No deviation is recorded for any finding.
+`misch` analyses `include/` and `src/` once for each backend: the `__atomic` backend in the base configuration, and the C11 and uniprocessor backends through the `c11` and `no_atomics` profiles in `misra.toml`, because each backend compiles different code. Each analysis has a baseline in `analysis/baseline/` that records its accepted findings, and CI fails on any finding outside it. The only recorded deviation is an inline one of Rule 2.5 (unused macro) for the version macros in `seqlock.h`, which exist for consumers and are not used by the library.
 
 The baselines hold 42, 36 and 35 findings. All three share the same core of Rules 2.5, 8.7, 12.1, 15.5 and 20.10. The rest follow from the backend: Rule 17.3 only for the `__atomic` backend, whose builtins have no declaration; Rule 10.4 only for the C11 backend; and Rules 12.3 and 13.4 only for the uniprocessor backend, whose counter-store macro uses the comma operator and an assignment as an operand. Full tool-driven compliance needs a certified static analyser, which this repository does not vendor.
 
