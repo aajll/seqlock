@@ -50,9 +50,9 @@
 /* cppcheck-suppress-begin misra-c2012-2.5 ; @deviation Public version macros
  * for consumer diagnostics and #if checks; the library does not use them. */
 #define SEQLOCK_VERSION_MAJOR  0
-#define SEQLOCK_VERSION_MINOR  1
-#define SEQLOCK_VERSION_PATCH  1
-#define SEQLOCK_VERSION        "0.1.1"
+#define SEQLOCK_VERSION_MINOR  2
+#define SEQLOCK_VERSION_PATCH  0
+#define SEQLOCK_VERSION        "0.2.0"
 #define SEQLOCK_VERSION_STRING SEQLOCK_VERSION
 #define SEQLOCK_VERSION_NUMBER                                                 \
         ((SEQLOCK_VERSION_MAJOR * 10000L) + (SEQLOCK_VERSION_MINOR * 100L)     \
