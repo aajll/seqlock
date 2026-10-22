@@ -179,16 +179,16 @@ record_load(const record_cell_t *cell, void *out)
 <!-- snippet: skip -->
 ```c
 #define SEQLOCK_VERSION_MAJOR 0
-#define SEQLOCK_VERSION_MINOR 1
-#define SEQLOCK_VERSION_PATCH 1
-#define SEQLOCK_VERSION "0.1.1"
+#define SEQLOCK_VERSION_MINOR 2
+#define SEQLOCK_VERSION_PATCH 0
+#define SEQLOCK_VERSION "0.2.0"
 ```
 
 `SEQLOCK_VERSION_NUMBER` is `MAJOR * 10000 + MINOR * 100 + PATCH` as a `long`, so it holds any version where `int` is 16 bits. Compare it in the preprocessor to require a minimum release:
 
 ```c
-#if SEQLOCK_VERSION_NUMBER < 101L
-#error "seqlock 0.1.1 or later is required"
+#if SEQLOCK_VERSION_NUMBER < 200L
+#error "seqlock 0.2.0 or later is required"
 #endif
 ```
 

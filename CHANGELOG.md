@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-22
+
 ### Added
 
 - `scripts/format.sh`, which pins the clang-format release and runs it with `uvx`. CI checks formatting through it.
@@ -20,7 +22,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - The build produces and installs only the static library. The shared library, which neither `seqlock_dep` nor `seqlock.pc` linked, is no longer built.
 - CI installs Meson, Ninja and gcovr with `uv` instead of `pip`.
 - CI gates on 100% branch coverage as well as line coverage. The reader retry branches are reached deterministically by a single-threaded test, and the no-atomics backend is built and tested alongside the C11 backend.
-
 - Added security policy, SPDX headers, and cleaned ignore rules while leaving the existing special coverage/concurrency handling unchanged.
 
 ### Removed
